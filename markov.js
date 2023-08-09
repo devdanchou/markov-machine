@@ -27,26 +27,21 @@ class MarkovMachine {
    * */
 
   getChains() {
-    // TODO: implement this!
     let markovChain = {};
 
+    for (let word of this.words){
+      markovChain[word] = []
+    }
+
     for (let i = 0; i < this.words.length; i++) {
-        let key = this.words[i];
-        let value = this.words[i + 1];
+      let key = this.words[i];
+      let value = this.words[i + 1] || null;
 
-
-
-        if (value === undefined) {
-          markovChain[key] = [null];
-        } else {
-          markovChain[key] = [value];
-        }
+      markovChain[key].push(value)
     }
 
     return markovChain;
-
   }
-
 
   /** Return random text from chains, starting at the first word and continuing
    *  until it hits a null choice. */
@@ -57,7 +52,17 @@ class MarkovMachine {
     // - start at the first word in the input text
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
+    let chains = this.chains
+    let string = "";
+
+    for (let word in chains){
+      let idx = Math.floor(Math.random() * chains[word].length);
+      string += chains[word][idx]
+    }
+
+    return string
   }
 }
 
 module.exports = {MarkovMachine};
+
