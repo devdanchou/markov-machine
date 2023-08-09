@@ -29,15 +29,15 @@ class MarkovMachine {
   getChains() {
     let markovChain = {};
 
-    for (let word of this.words){
-      markovChain[word] = []
+    for (let word of this.words){ // check for duplicates
+      markovChain[word] = [];
     }
 
     for (let i = 0; i < this.words.length; i++) {
       let key = this.words[i];
       let value = this.words[i + 1] || null;
 
-      markovChain[key].push(value)
+      markovChain[key].push(value);
     }
 
     return markovChain;
@@ -52,15 +52,19 @@ class MarkovMachine {
     // - start at the first word in the input text
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
-    let chains = this.chains
-    let string = "";
+    let words = this.words;
+    let markovChain = this.chains;
+    let string = [];
 
-    for (let word in chains){
-      let idx = Math.floor(Math.random() * chains[word].length);
-      string += chains[word][idx]
+    for (let word of words){
+      let idx = Math.floor(Math.random() * markovChain[word].length);
+      // string.push(chains[word][idx]);
+      if (markovChain[word] !== null) {
+        string.push(markovChain[word][idx]);
+      }
     }
 
-    return string
+    return string.join(" ").trim();
   }
 }
 
